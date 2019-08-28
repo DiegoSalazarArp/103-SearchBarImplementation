@@ -9,8 +9,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var searchTerm: String = ""
+    
+    let names = ["Diego", "Matías", "José", "Angelica", "Javiera"]
+    
     var body: some View {
-        Text("Hello World")
+        List {
+            
+            SearchBar(text: $searchTerm)
+            
+            ForEach(self.names.filter {
+                self.searchTerm.isEmpty ? true :
+                    $0.localizedStandardContains(self.searchTerm)
+            }, id: \.self) { names in
+                Text(names)
+            }
+        }
     }
 }
 
